@@ -7,8 +7,8 @@ open(my $fh, '<', $ARGV[0]) or die "data: $!\n";
 my $FILE = \*$fh;
 #_count($FILE);
 print("###\n");
-_trainUnigram($FILE);
-
+#_trainUnigram($FILE);
+_testUnigram();
 sub _count{
     my $file = shift;
     print("file opened.\n");
@@ -28,7 +28,7 @@ sub _count{
 
 
     for my $key (sort keys %hCount){
-        print $fh "$key:$hCount{$key}\n";
+        print $fh "$key\t$hCount{$key}\n";
     }    
     print("counts generated.\n");
     my @end = localtime();
@@ -74,6 +74,22 @@ sub _trainUnigram{
 }
 
 sub _testUnigram{
+    open(my $fh, "<", "trainUnigram.txt");
+
+    my %probabilities;
+
+    while(my $line = <$fh>){
+        chomp $line;
+        my @aLine = split(/\t/, $line);
+        $probabilities{$aLine[0]} = $aLine[1];
+        
+    }
+
+    my $L = 0.95;
+    my $LUNK = 1 - $L;
+    my $V = 1000000;
+    my $W = 0;
+    my $H = 0;
 
     
 }
